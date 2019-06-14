@@ -8,8 +8,8 @@ using React and Spring Boot.
 
 
 # Video notes
-- For each lecture I may be updating the video_notes.md file which is a separate file for where I make down contents that I was
-unsure of or that I am just needing to reference.
+- For each lecture I may be updating the video_notes.md file which is a separate file for where I make down contents that I was unsure of or that I am just needing to reference.
+- For videos 20 and 21 I will not be uploading branches for those.
 
 # Progress
 - At this point/commit the master branch has changes up to the end of section 2.
