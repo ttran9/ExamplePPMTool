@@ -1,4 +1,5 @@
-Video 13:
+Video 14:
 
-- It is pointed out that the logic of inserting the errors into the errorMap should not be in the controller so this
-will soon be refactored and moved out of the controller.
+- Since we will be outputting custom errors we will need to refactor and move the logic inside of the createNewProject method
+out of the controller because other controllers will need to print out errors.
+    - Instead we will put this logic into a service that can be injected into other controllers.
