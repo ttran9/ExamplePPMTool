@@ -30,4 +30,20 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
         }
     }
+
+    /**
+     * retrieves the project by the projectIdentifier
+     * @param projectId The project's projectIdentifier field.
+     * @return Returns the project with the specified projectIdentifier.
+     */
+    @Override
+    public Project findProjectByIdentifier(String projectId) {
+        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+
+        if(project == null) {
+            throw new ProjectIdException("Project ID '" + projectId + "' doesn't exist");
+        }
+
+        return projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+    }
 }
