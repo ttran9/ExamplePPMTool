@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,8 @@ import tran.example.ppmtool.domain.Project;
 import tran.example.ppmtool.services.ProjectService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/project")
@@ -29,7 +32,14 @@ public class ProjectController {
         // we should return a generic type so we can return a ResponseEntity with more than just Project.
 
         if(bindingResult.hasErrors()) {
-            return new ResponseEntity<>("Invalid Project Object", HttpStatus.BAD_REQUEST);
+
+            Map<String, String> errorMap = new HashMap<>();
+
+            for (FieldError fieldError: bindingResult.getFieldErrors()) {
+                errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+
+            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
         Project project1 = this.projectService.saveOrUpdateProject(project);
