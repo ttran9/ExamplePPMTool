@@ -46,4 +46,13 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.findByProjectIdentifier(projectId.toUpperCase());
     }
+
+    /**
+     * A method to retrieve all the objects in our database.
+     * @return Returns all the projects.
+     */
+    @Override
+    public Iterable<Project> findAllProjects() {
+        return projectRepository.findAll();
+    }
 }
