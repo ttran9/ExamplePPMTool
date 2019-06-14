@@ -17,4 +17,10 @@ public interface ProjectService {
      * @return Returns the project with the specified projectIdentifier.
      */
     Project findProjectByIdentifier(String projectId);
+
+    /**
+     * A method to retrieve all the objects in our database.
+     * @return Returns all the projects.
+     */
+    Iterable<Project> findAllProjects();
 }
