@@ -23,4 +23,10 @@ public interface ProjectService {
      * @return Returns all the projects.
      */
     Iterable<Project> findAllProjects();
+
+    /**
+     * deletes a project with the specified identifier
+     * @param projectId The project's identifier.
+     */
+    void deleteProjectByIdentifier(String projectId);
 }
