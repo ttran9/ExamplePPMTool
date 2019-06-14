@@ -3,6 +3,7 @@ package tran.example.ppmtool.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tran.example.ppmtool.domain.Project;
+import tran.example.ppmtool.exceptions.ProjectIdException;
 import tran.example.ppmtool.repositories.ProjectRepository;
 
 @Service
@@ -22,9 +23,11 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Project saveOrUpdateProject(Project project) {
-
-        // logic here later.
-
-        return projectRepository.save(project);
+        try {
+            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            return projectRepository.save(project);
+        } catch(Exception ex) {
+            throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
+        }
     }
 }
