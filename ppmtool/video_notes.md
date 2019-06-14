@@ -1,5 +1,7 @@
-Video 14:
+Video 15:
 
-- Since we will be outputting custom errors we will need to refactor and move the logic inside of the createNewProject method
-out of the controller because other controllers will need to print out errors.
-    - Instead we will put this logic into a service that can be injected into other controllers.
+- the @column annotation is setting a constraint at the database layer.
+    - the 500 error we are seeing for duplicating the projectIdentifier occurs when we are trying to persist (insert) into
+    the database and NOT when we passing the RequestBody (the project object) through our mapValidationErrorService.
+- the custom validator we implemented in video 14 (last video) was ensuring the user entered in the proper data.
+- @ControllerAdvice: this provides global control over exception handling.
