@@ -1,8 +1,14 @@
-Video 27:
+Video 28:
 
-- At the time of my watching the latest react-router-dom is 5.0.1 but I will be using the tutorial's 4.3.1
-- Inside of App.js we had to wrap everything inside of the Router component.
-- functional vs class based component:
-  - class based component can access lifecycle hooks and "state" of an application.
-  - functional can access the props..
-    - functional component is essentially stateless.
+- AddProject component notes are below
+
+  - // check name attribute input fields
+  - // create constructor
+  - // set state
+  - // set value on input fields
+  - // create onChange function
+  - // set onChange on each input field
+  - // bind on constructor
+  - // check state change in the react extension
+
+- It is pointed out that for each input field the name attribute must match the name of the fields in the Project.java class in our backend (case sensitivity matters too)
