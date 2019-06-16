@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createProject } from "../../actions/projectActions";
 
 class AddProject extends Component {
   constructor() {
@@ -33,7 +36,8 @@ class AddProject extends Component {
       start_date: this.state.start_date,
       end_date: this.state.end_date
     };
-    console.log(newProject);
+
+    this.props.createProject(newProject, this.props.history);
   }
 
   render() {
@@ -121,4 +125,17 @@ class AddProject extends Component {
   }
 }
 
-export default AddProject;
+// note that "propTypes" is not the same as the import, "PropTypes"
+AddProject.propTypes = {
+  /*
+   * the below is similar to a constraint
+   * we are ensuring that the createProject action is required propType for this component to work properly.
+   */
+  createProject: PropTypes.func.isRequired
+};
+
+// first parameter is how we map the state to our props.
+export default connect(
+  null,
+  { createProject }
+)(AddProject);
