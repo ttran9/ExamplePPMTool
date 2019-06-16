@@ -6,7 +6,7 @@ export const createProject = (project, history) => async dispatch => {
   try {
     const response = await axios.post(Constants.BASE_URL, project);
     // take us back to the dashboard if we succesfully create the project.
-    history.push("/");
+    history.push("/dashboard");
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
