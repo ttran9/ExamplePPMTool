@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PROJECTS } from "./types";
+import { GET_ERRORS, GET_PROJECTS, GET_PROJECT } from "./types";
 import * as Constants from "../Constants";
 
 export const createProject = (project, history) => async dispatch => {
@@ -19,6 +19,15 @@ export const getProjects = () => async dispatch => {
   const response = await axios.get(Constants.GET_ALL_PROJECTS);
   dispatch({
     type: GET_PROJECTS,
+    payload: response.data
+  });
+};
+
+// if we get any errors we will redirect to our dashboard so we need the history for this.
+export const getProject = (id, history) => async dispatch => {
+  const response = await axios.get(`${Constants.GET_PROJECT}${id}`);
+  dispatch({
+    type: GET_PROJECT,
     payload: response.data
   });
 };
