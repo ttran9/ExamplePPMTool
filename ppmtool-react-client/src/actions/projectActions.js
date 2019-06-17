@@ -4,7 +4,7 @@ import * as Constants from "../Constants";
 
 export const createProject = (project, history) => async dispatch => {
   try {
-    const response = await axios.post(Constants.BASE_URL, project);
+    await axios.post(`${Constants.PROJECT_API_URL}`, project);
     // take us back to the dashboard if we succesfully create the project.
     history.push(Constants.DASHBOARD_URL);
     dispatch({
@@ -20,7 +20,7 @@ export const createProject = (project, history) => async dispatch => {
 };
 
 export const getProjects = () => async dispatch => {
-  const response = await axios.get(Constants.GET_ALL_PROJECTS);
+  const response = await axios.get(`${Constants.PROJECT_API_URL}/all`);
   dispatch({
     type: GET_PROJECTS,
     payload: response.data
@@ -30,7 +30,7 @@ export const getProjects = () => async dispatch => {
 // if we get any errors we will redirect to our dashboard so we need the history for this.
 export const getProject = (id, history) => async dispatch => {
   try {
-    const response = await axios.get(`${Constants.GET_PROJECT}${id}`);
+    const response = await axios.get(`${Constants.PROJECT_API_URL}/${id}`);
     dispatch({
       type: GET_PROJECT,
       payload: response.data
@@ -41,7 +41,7 @@ export const getProject = (id, history) => async dispatch => {
 };
 
 export const deleteProject = id => async dispatch => {
-  await axios.delete(`${Constants.GET_PROJECT}${id}`);
+  await axios.delete(`${Constants.PROJECT_API_URL}/${id}`);
   dispatch({
     type: DELETE_PROJECT,
     payload: id
