@@ -6,7 +6,7 @@ export const createProject = (project, history) => async dispatch => {
   try {
     const response = await axios.post(Constants.BASE_URL, project);
     // take us back to the dashboard if we succesfully create the project.
-    history.push("/dashboard");
+    history.push(Constants.DASHBOARD_URL);
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
@@ -25,9 +25,13 @@ export const getProjects = () => async dispatch => {
 
 // if we get any errors we will redirect to our dashboard so we need the history for this.
 export const getProject = (id, history) => async dispatch => {
-  const response = await axios.get(`${Constants.GET_PROJECT}${id}`);
-  dispatch({
-    type: GET_PROJECT,
-    payload: response.data
-  });
+  try {
+    const response = await axios.get(`${Constants.GET_PROJECT}${id}`);
+    dispatch({
+      type: GET_PROJECT,
+      payload: response.data
+    });
+  } catch (error) {
+    history.push(Constants.DASHBOARD_URL);
+  }
 };
