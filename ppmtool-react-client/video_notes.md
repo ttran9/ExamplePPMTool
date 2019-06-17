@@ -1,3 +1,3 @@
-Video 38:
+Video 39:
 
-- Not discussed in the video, the instructor actually changed the getProjectById back to return a status code of 200 but we originally started with status code of 302 which although means found will actually throw an error. I eventually realized this after debugging for a while and believing that I had a typo somewhere so then I decided to start adding then and catch blocks while making the axios get call.
+- In the Project.java we had to use the @Column(updatable = false) so that even if we pass in null it doesn't update the created_At column un-necessarily.
