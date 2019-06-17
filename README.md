@@ -8,8 +8,8 @@ using React and Spring Boot.
 
 
 # Video notes
-- For each lecture I may be updating the video_notes.md file which is a separate file for where I make down contents that I was unsure of or that I am just needing to reference.
-- For videos 20 and 21 I will not be uploading branches for those.
+- If the video_notes.md file is empty for a commit then that means for the video I did not upload any notes for it.
+
 
 # Progress
-- At this point/commit the master branch has changes up to the end of section 2.
+- At this point/commit the master branch has changes up to the end of section 3.
