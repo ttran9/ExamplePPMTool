@@ -1,4 +1,3 @@
-Video 40:
+Video 41:
 
-- In the Project.java we had to use the @Column(updatable = false) so that even if we pass in null it doesn't update the created_At column un-necessarily.
-- In the render method it is important we have a const {errors} variable so we can access the errors inside of the form.
+- The solution shown in the video is that once we have a good project creation/update then we just pass in an empty errors object to our payload.
