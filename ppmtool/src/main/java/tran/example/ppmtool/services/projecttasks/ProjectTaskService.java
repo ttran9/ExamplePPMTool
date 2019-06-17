@@ -5,8 +5,10 @@ import tran.example.ppmtool.domain.ProjectTask;
 public interface ProjectTaskService {
 
     /**
-     * Add a project task to ane xisting Project and Backlog.
+     * Add a project task to an existing Project and Backlog.
+     * @param projectIdentifier The projectIdentifier to grab the associated Backlog.
+     * @param projectTask The projectTask to be added to a backlog identified by the projectIdentifier.
      * @return Return a new Project Task.
      */
-    ProjectTask addProjectTask();
+    ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask);
 }
