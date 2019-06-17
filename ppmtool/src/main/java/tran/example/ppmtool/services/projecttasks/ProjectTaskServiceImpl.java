@@ -38,6 +38,8 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
         backlogSequence++;
 
+        backlog.setPTSequence(backlogSequence);
+
         // Add Sequence to Project Task.
         projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
         projectTask.setProjectIdentifier(projectIdentifier);
