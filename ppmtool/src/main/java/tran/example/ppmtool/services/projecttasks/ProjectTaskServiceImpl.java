@@ -12,6 +12,11 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     private ProjectTaskRepository projectTaskRepository;
 
+    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
+        this.backlogRepository = backlogRepository;
+        this.projectTaskRepository = projectTaskRepository;
+    }
+
     @Override
     public ProjectTask addProjectTask() {
 
@@ -27,5 +32,6 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
          * priority (high --> low).
          * also create an initial status when status is null
          */
+        return null;
     }
 }
