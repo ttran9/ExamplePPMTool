@@ -1,6 +1,10 @@
 package tran.example.ppmtool.services.projecttasks;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tran.example.ppmtool.constants.projecttask.ProjectTaskPriority;
+import tran.example.ppmtool.constants.projecttask.ProjectTaskStatus;
+import tran.example.ppmtool.domain.Backlog;
 import tran.example.ppmtool.domain.ProjectTask;
 import tran.example.ppmtool.repositories.BacklogRepository;
 import tran.example.ppmtool.repositories.ProjectTaskRepository;
@@ -12,26 +16,42 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     private ProjectTaskRepository projectTaskRepository;
 
+    @Autowired
     public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
     }
 
     @Override
-    public ProjectTask addProjectTask() {
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
 
-        /*
-         * project tasks to be added to a specific project where project != null (project must exist!!) and Backlog must
-         * already exist.
-         * set the backlog to the project task (set the relationship at the db layer).
-         * we want our project sequence to be something such as: IDPR1, IDPR2, not like.. IDPR1, IDPR100.
-         * if we delete the project task we would want our sequence to be IDPR1, IDPR2 then we delete IDPR2 then when we
-         * add in the next task we want the sequence to be IDPR1, IDPR3 NOT IDPR1, IDPR2.
-         * after creating our project task we want to update the backlog sequence.
-         * create an initial priority (low, medium, high) when the priority is null and also group the tasks based on
-         * priority (high --> low).
-         * also create an initial status when status is null
-         */
-        return null;
+        // Exceptions: Project not found
+
+        // Project Tasks to be added to a specific project, project != null, and backlog must exist.
+        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+
+        // set the backLog to projectTask.
+        projectTask.setBacklog(backlog);
+
+        // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
+        Integer backlogSequence = backlog.getPTSequence();
+        // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
+        backlogSequence++;
+
+        // Add Sequence to Project Task.
+        projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
+        projectTask.setProjectIdentifier(projectIdentifier);
+
+        // INITIAL priority when priority null
+        if(projectTask.getPriority() == null || projectTask.getPriority() == 0) {
+            projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
+        }
+
+        // INITIAL status when status is null
+        if(projectTask.getStatus() == null || projectTask.getStatus().equals("")) {
+            projectTask.setStatus(ProjectTaskStatus.TO_DO.getStatus());
+        }
+
+        return projectTaskRepository.save(projectTask);
     }
 }
