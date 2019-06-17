@@ -1,6 +1,4 @@
-video 19:
+video 45:
 
-- The solution shown in the video uses the fact that if we pass in the "id" data member and not the projectIdentifier within
-the body of our Project object then JPA will know to just override an existing Project.
-- It is also pointed out that the createdAt and updatedAt fields are null but when working with React we will not be passing in
-null values.
+- Decoupling our Backlog, Project, and ProjectTasks will allow us to load the Project itself more efficiently instead of
+loading everything else associated with it.
