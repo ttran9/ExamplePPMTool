@@ -33,6 +33,19 @@ public class Project {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
 
+    /*
+     * when we load a project we also will have the backlog object available.
+     * cascade = CascadeType.ALL means our project is the 'owning' side of the relationship.
+     * if we delete the object then everything that's the child of our project such as backlog and project tasks then
+     * everything should be deleted.
+     */
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    /*
+     * without the annotation we would have an infinite loop because we're trying to set the relationship between project
+     * and backlog an infinite number of times.
+     */
+    private Backlog backlog;
+
     public Project() {
     }
 
@@ -108,5 +121,13 @@ public class Project {
 
     public void setUpdated_At(Date updated_At) {
         this.updated_At = updated_At;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 }
