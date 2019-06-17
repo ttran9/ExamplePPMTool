@@ -1,4 +1,4 @@
-video 45:
+Video 46:
 
-- Decoupling our Backlog, Project, and ProjectTasks will allow us to load the Project itself more efficiently instead of
-loading everything else associated with it.
+- We use @JsonIgnore in the Backlog class on the project to break an issue we have because hibernate is attempting to
+recursively create the relationship between the project and an associated backlog object.
