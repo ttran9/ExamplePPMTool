@@ -1,6 +1,7 @@
 package tran.example.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -44,6 +45,7 @@ public class Project {
      * without the annotation we would have an infinite loop because we're trying to set the relationship between project
      * and backlog an infinite number of times.
      */
+    @JsonIgnore
     private Backlog backlog;
 
     public Project() {
