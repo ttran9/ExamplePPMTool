@@ -11,4 +11,11 @@ public interface ProjectTaskService {
      * @return Return a new Project Task.
      */
     ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask);
+
+    /**
+     * Gets a list of Project Tasks associated with a specific Backlog.
+     * @param backlog_id The backlog's projectIdentifier.
+     * @return Gets a list of Project Tasks ordered by priority.
+     */
+    Iterable<ProjectTask> findBacklogById(String backlog_id);
 }
