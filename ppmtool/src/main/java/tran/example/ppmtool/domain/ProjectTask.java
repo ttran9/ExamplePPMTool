@@ -1,5 +1,7 @@
 package tran.example.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -18,11 +20,19 @@ public class ProjectTask {
     private String status;
     private Integer priority;
     private Date dueDate;
-    // ManyToOne with Backlog
-    // Can have many tasks in one backlog.
+    /*
+     * ManyToOne with Backlog
+     * Can have many tasks in one backlog.
+     * for CascadeType.REFRESH we can delete a project task that belongs  or is a child Backlog object and this would
+     * then refresh the Backlog and the ProjectTask no longer exists.
+     */
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name="backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
+
     @Column(updatable = false)
     private String projectIdentifier; // when we are persisting tasks we want to specify backlog we are associated with.
-
 
     private Date created_At;
     private Date updated_At;
@@ -110,6 +120,14 @@ public class ProjectTask {
         this.updated_At = updated_At;
     }
 
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.created_At = new Date();
@@ -135,4 +153,5 @@ public class ProjectTask {
                 ", updated_At=" + updated_At +
                 '}';
     }
+
 }
