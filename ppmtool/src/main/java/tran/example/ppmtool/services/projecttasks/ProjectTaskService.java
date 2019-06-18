@@ -14,8 +14,16 @@ public interface ProjectTaskService {
 
     /**
      * Gets a list of Project Tasks associated with a specific Backlog.
-     * @param backlog_id The backlog's projectIdentifier.
+     * @param backlogId The backlog's projectIdentifier.
      * @return Gets a list of Project Tasks ordered by priority.
      */
-    Iterable<ProjectTask> findBacklogById(String backlog_id);
+    Iterable<ProjectTask> findBacklogById(String backlogId);
+
+    /**
+     * Gets the project task with the specified project sequence and is a part of the proper backlog.
+     * @param backlogId The backlog identifier that the project task is a part of.
+     * @param projectSequence The project sequence identifying a project task.
+     * @return Returns a project task.
+     */
+    ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectSequence);
 }
