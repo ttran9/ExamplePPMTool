@@ -12,6 +12,8 @@ import tran.example.ppmtool.repositories.BacklogRepository;
 import tran.example.ppmtool.repositories.ProjectRepository;
 import tran.example.ppmtool.repositories.ProjectTaskRepository;
 
+import java.util.List;
+
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
 
@@ -108,21 +110,34 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     @Override
     public ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence) {
-        // update project task
-        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectSequence);
+
+        // find existing project task
+        ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence);
 
 //         the below stub is just to eliminate a warning from the compiler stating our findByProjectSequence is redundant.
 //        if(projectTask == null) {
 //            throw new ProjectNotFoundException("some logic here");
 //        }
 
+        // replace it with updated task
         projectTask = updatedProjectTask;
+
+        // update project task
+        // save update.
         return projectTaskRepository.save(projectTask);
     }
 
-    // find existing project task
+    @Override
+    public void deleteProjectTaskByProjectSequenceAndBacklogId(String backlogId, String projectSequence) {
+        // find existing project task
+        ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence);
 
-    // replace it with updated task
+        // this is a hack-ish solution which will be resolved in the next video.
+        Backlog backlog = projectTask.getBacklog();
+        List<ProjectTask> pts = projectTask.getBacklog().getProjectTasks();
+        pts.remove(projectTask);
+        backlogRepository.save(backlog);
 
-    // save update.
+        projectTaskRepository.delete(projectTask);
+    }
 }
