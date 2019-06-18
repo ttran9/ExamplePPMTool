@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import tran.example.ppmtool.domain.Project;
 import tran.example.ppmtool.domain.ProjectTask;
 import tran.example.ppmtool.services.projecttasks.ProjectTaskService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
@@ -47,5 +48,18 @@ public class BacklogController {
         ProjectTask projectTask = projectTaskService.findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectTaskId);
 
         return new ResponseEntity<>(projectTask, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{backlogId}/{projectTaskId}")
+    public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask updatedProjectTask, BindingResult bindingResult,
+                                               @PathVariable String backlogId, @PathVariable String projectTaskId) {
+        ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
+
+        if(errorMap != null) return errorMap;
+
+        ProjectTask updatedProjectTaskTwo = projectTaskService.updateProjectTaskByProjectSequenceAndBacklogId(
+                updatedProjectTask, backlogId, projectTaskId);
+
+        return new ResponseEntity<>(updatedProjectTaskTwo, HttpStatus.OK);
     }
 }
