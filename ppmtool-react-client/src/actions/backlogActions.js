@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as Constants from "../Constants";
-import { GET_ERRORS, GET_BACKLOG } from "./types";
+import { GET_ERRORS, GET_BACKLOG, GET_PROJECT_TASK } from "./types";
 
 export const addProjectTask = (
   backlogId,
@@ -36,5 +36,23 @@ export const getBacklog = backlogId => async dispatch => {
       type: GET_ERRORS,
       payload: error.response.data
     });
+  }
+};
+
+export const getProjectTask = (
+  backlogId,
+  projectTaskId,
+  history
+) => async dispatch => {
+  try {
+    const response = await axios.get(
+      `${Constants.BACKLOG_API_URL}/${backlogId}/${projectTaskId}`
+    );
+    dispatch({
+      type: GET_PROJECT_TASK,
+      payload: response.data
+    });
+  } catch (error) {
+    history.push(Constants.DASHBOARD_URL);
   }
 };
