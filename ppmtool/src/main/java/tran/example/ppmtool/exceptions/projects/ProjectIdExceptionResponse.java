@@ -1,4 +1,4 @@
-package tran.example.ppmtool.exceptions;
+package tran.example.ppmtool.exceptions.projects;
 
 public class ProjectIdExceptionResponse {
 

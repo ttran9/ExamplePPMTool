@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://192.168.99.100:3306/websitedb?useSSL=false
+    username: root
+    password: test
+    driverClassName: com.mysql.cj.jdbc.Driver

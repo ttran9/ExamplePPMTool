@@ -1,4 +1,4 @@
-package tran.example.ppmtool.services;
+package tran.example.ppmtool.services.projects;
 
 import tran.example.ppmtool.domain.Project;
 

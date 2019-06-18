@@ -1,19 +1,23 @@
-package tran.example.ppmtool.services;
+package tran.example.ppmtool.services.projects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tran.example.ppmtool.domain.Backlog;
 import tran.example.ppmtool.domain.Project;
-import tran.example.ppmtool.exceptions.ProjectIdException;
+import tran.example.ppmtool.exceptions.projects.ProjectIdException;
+import tran.example.ppmtool.repositories.BacklogRepository;
 import tran.example.ppmtool.repositories.ProjectRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository projectRepository;
+    private BacklogRepository backlogRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, BacklogRepository backlogRepository) {
         this.projectRepository = projectRepository;
+        this.backlogRepository = backlogRepository;
     }
 
     /**
@@ -24,7 +28,22 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project saveOrUpdateProject(Project project) {
         try {
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            String projectIdentifierUpperCase = project.getProjectIdentifier().toUpperCase();
+            project.setProjectIdentifier(projectIdentifierUpperCase);
+
+            if(project.getId() == null) {
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(projectIdentifierUpperCase);
+            }
+
+            if(project.getId() != null) {
+                // since we are only updating the relevant project information info just grab our existing back log.
+                Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifierUpperCase);
+                project.setBacklog(backlog);
+            }
+
             return projectRepository.save(project);
         } catch(Exception ex) {
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists");
