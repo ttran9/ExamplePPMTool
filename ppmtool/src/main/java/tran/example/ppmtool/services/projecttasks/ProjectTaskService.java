@@ -26,4 +26,13 @@ public interface ProjectTaskService {
      * @return Returns a project task.
      */
     ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence);
+
+    /**
+     * Updates the project task with the specified project sequence and backlogId.
+     * @param updatedProjectTask The project task with the newly updated content(s).
+     * @param backlogId The backlog Id that this project task is a part of.
+     * @param projectSequence The project sequence of the project task to be updated.
+     * @return Returns the updated project task.
+     */
+    ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence);
 }
