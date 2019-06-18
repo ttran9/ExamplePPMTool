@@ -10,7 +10,6 @@ import tran.example.ppmtool.services.projecttasks.ProjectTaskService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/backlog")
@@ -26,20 +25,20 @@ public class BacklogController {
         this.mapValidationErrorService = mapValidationErrorService;
     }
 
-    @PostMapping("/{backlog_id}")
+    @PostMapping("/{backlogId}")
     public ResponseEntity<?> addProjectTaskToBacklog(@Valid @RequestBody ProjectTask projectTask,
-                                                     BindingResult bindingResult, @PathVariable String backlog_id) {
+                                                     BindingResult bindingResult, @PathVariable String backlogId) {
         ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
 
         if(errorMap != null) return errorMap;
 
-        ProjectTask projectTask1 = projectTaskService.addProjectTask(backlog_id, projectTask);
+        ProjectTask projectTask1 = projectTaskService.addProjectTask(backlogId, projectTask);
 
         return new ResponseEntity<>(projectTask1, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{backlog_id}")
-    public Iterable<ProjectTask> getProjectBackLog(@PathVariable String backlog_id) {
-        return projectTaskService.findBacklogById(backlog_id);
+    @GetMapping("/{backlogId}")
+    public Iterable<ProjectTask> getProjectBackLog(@PathVariable String backlogId) {
+        return projectTaskService.findBacklogById(backlogId);
     }
 }
