@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { addProjectTask } from "../../../actions/backlogActions";
 import PropTypes from "prop-types";
+import * as Constants from "../../../Constants";
 
 class AddProjectTask extends Component {
   constructor(props) {
@@ -125,9 +126,11 @@ class AddProjectTask extends Component {
                     onChange={this.onChange}
                   >
                     <option value="">Select Status</option>
-                    <option value="TO_DO">TO DO</option>
-                    <option value="IN_PROGRESS">IN PROGRESS</option>
-                    <option value="DONE">DONE</option>
+                    <option value={Constants.TO_DO_STATUS}>TO DO</option>
+                    <option value={Constants.IN_PROGRESS_STATUS}>
+                      IN PROGRESS
+                    </option>
+                    <option value={Constants.DONE_STATUS}>DONE</option>
                   </select>
                 </div>
 
