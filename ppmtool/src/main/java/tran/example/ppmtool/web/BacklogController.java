@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import tran.example.ppmtool.domain.Project;
 import tran.example.ppmtool.domain.ProjectTask;
 import tran.example.ppmtool.services.projecttasks.ProjectTaskService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
