@@ -23,10 +23,9 @@ public class ProjectTask {
     /*
      * ManyToOne with Backlog
      * Can have many tasks in one backlog.
-     * for CascadeType.REFRESH we can delete a project task that belongs  or is a child Backlog object and this would
-     * then refresh the Backlog and the ProjectTask no longer exists.
+     * we do not need CascadeType.Refresh here because it is not the owning side of the relationship.
      */
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="backlog_id", updatable = false, nullable = false)
     @JsonIgnore
     private Backlog backlog;
