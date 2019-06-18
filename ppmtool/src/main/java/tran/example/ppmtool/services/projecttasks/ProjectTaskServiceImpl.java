@@ -105,4 +105,24 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
         return projectTask;
     }
+
+    @Override
+    public ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence) {
+        // update project task
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectSequence);
+
+//         the below stub is just to eliminate a warning from the compiler stating our findByProjectSequence is redundant.
+//        if(projectTask == null) {
+//            throw new ProjectNotFoundException("some logic here");
+//        }
+
+        projectTask = updatedProjectTask;
+        return projectTaskRepository.save(projectTask);
+    }
+
+    // find existing project task
+
+    // replace it with updated task
+
+    // save update.
 }
