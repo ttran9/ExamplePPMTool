@@ -35,4 +35,11 @@ public interface ProjectTaskService {
      * @return Returns the updated project task.
      */
     ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence);
+
+    /**
+     * Deletes a project task with the specified project sequence and backlogId.
+     * @param backlogId The backlog Id that this project task is a part of.
+     * @param projectSequence The project sequence of the project task to be removed.
+     */
+    void deleteProjectTaskByProjectSequenceAndBacklogId(String backlogId, String projectSequence);
 }
