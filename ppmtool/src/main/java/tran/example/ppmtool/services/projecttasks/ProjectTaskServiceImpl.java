@@ -45,11 +45,11 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             projectTask.setBacklog(backlog);
 
             // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
-            Integer backlogSequence = backlog.getPTSequence();
+            Integer backlogSequence = backlog.getPtSequence();
             // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
             backlogSequence++;
 
-            backlog.setPTSequence(backlogSequence);
+            backlog.setPtSequence(backlogSequence);
 
             // Add Sequence to Project Task.
             projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
@@ -72,14 +72,22 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     }
 
     @Override
-    public Iterable<ProjectTask> findBacklogById(String backlog_id) {
+    public Iterable<ProjectTask> findBacklogById(String backlogId) {
 
-        Project project = projectRepository.findByProjectIdentifier(backlog_id);
+        Project project = projectRepository.findByProjectIdentifier(backlogId);
 
         if(project == null) {
-            throw new ProjectNotFoundException("Project with ID: '" + backlog_id + "' does not exist");
+            throw new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist");
         }
 
-        return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlogId);
+    }
+
+    @Override
+    public ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence) {
+
+        // make sure we are searching on the right backlog.
+
+        return projectTaskRepository.findByProjectSequence(projectSequence);
     }
 }
