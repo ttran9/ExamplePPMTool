@@ -8,13 +8,16 @@ import PropTypes from "prop-types";
 class AddProjectTask extends Component {
   constructor(props) {
     super(props);
+    const { id } = this.props.match.params;
 
     this.state = {
       summary: "",
       acceptanceCriteria: "",
       status: "",
-      priority: "3",
-      dueDate: ""
+      priority: 0,
+      dueDate: "",
+      projectIdentifier: id,
+      errors: {}
     };
   }
 
@@ -37,6 +40,7 @@ class AddProjectTask extends Component {
                     className="form-control form-control-lg"
                     name="summary"
                     placeholder="Project Task summary"
+                    value={this.state.summary}
                   />
                 </div>
                 <div className="form-group">
@@ -44,6 +48,7 @@ class AddProjectTask extends Component {
                     className="form-control form-control-lg"
                     placeholder="Acceptance Criteria"
                     name="acceptanceCriteria"
+                    value={this.state.acceptanceCriteria}
                   />
                 </div>
                 <h6>Due Date</h6>
@@ -52,12 +57,14 @@ class AddProjectTask extends Component {
                     type="date"
                     className="form-control form-control-lg"
                     name="dueDate"
+                    value={this.state.dueDate}
                   />
                 </div>
                 <div className="form-group">
                   <select
                     className="form-control form-control-lg"
                     name="priority"
+                    value={this.state.priority}
                   >
                     <option value={0}>Select Priority</option>
                     <option value={1}>High</option>
@@ -70,6 +77,7 @@ class AddProjectTask extends Component {
                   <select
                     className="form-control form-control-lg"
                     name="status"
+                    value={this.state.status}
                   >
                     <option value="">Select Status</option>
                     <option value="TO_DO">TO DO</option>
