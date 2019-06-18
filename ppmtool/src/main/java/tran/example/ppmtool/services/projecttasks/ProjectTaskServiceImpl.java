@@ -87,7 +87,22 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
     public ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence) {
 
         // make sure we are searching on the right backlog.
+        Backlog backlog = backlogRepository.findByProjectIdentifier(backlogId);
+        if(backlog == null) {
+            throw new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist");
+        }
 
-        return projectTaskRepository.findByProjectSequence(projectSequence);
+        // make sure that our project task exists.
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectSequence);
+        if(projectTask == null) {
+            throw new ProjectNotFoundException("Project Task '" + projectSequence + "' not found");
+        }
+
+        // make sure that the backlog/project id in the path corresponds to the right project.
+        if(!projectTask.getProjectIdentifier().equals(backlogId)) {
+            throw new ProjectNotFoundException("Project Task '" + projectSequence + "' does not exist in project: '" + backlogId);
+        }
+
+        return projectTask;
     }
 }
