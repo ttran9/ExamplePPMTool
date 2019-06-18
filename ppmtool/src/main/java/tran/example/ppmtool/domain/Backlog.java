@@ -12,7 +12,7 @@ public class Backlog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer PTSequence = 0; // the sequence of project tasks within each back log.
+    private Integer ptSequence = 0; // the sequence of project tasks within each back log.
     private String projectIdentifier;
 
     // OneToOne with project
@@ -36,12 +36,12 @@ public class Backlog {
         this.id = id;
     }
 
-    public Integer getPTSequence() {
-        return PTSequence;
+    public Integer getPtSequence() {
+        return ptSequence;
     }
 
-    public void setPTSequence(Integer PTSequence) {
-        this.PTSequence = PTSequence;
+    public void setPtSequence(Integer ptSequence) {
+        this.ptSequence = ptSequence;
     }
 
     public String getProjectIdentifier() {
@@ -60,8 +60,8 @@ public class Backlog {
         this.project = project;
     }
 
-    public Backlog(Integer PTSequence, String projectIdentifier, List<ProjectTask> projectTasks) {
-        this.PTSequence = PTSequence;
+    public Backlog(Integer ptSequence, String projectIdentifier, List<ProjectTask> projectTasks) {
+        this.ptSequence = ptSequence;
         this.projectIdentifier = projectIdentifier;
         this.projectTasks = projectTasks;
     }

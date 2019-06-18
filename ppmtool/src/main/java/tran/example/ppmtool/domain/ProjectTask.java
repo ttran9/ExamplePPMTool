@@ -12,7 +12,7 @@ public class ProjectTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(updatable = false)
+    @Column(updatable = false, unique = true)
     private String projectSequence; // use this to find project tasks.
     @NotBlank(message = "Please include a project summary")
     private String summary;
@@ -34,8 +34,8 @@ public class ProjectTask {
     @Column(updatable = false)
     private String projectIdentifier; // when we are persisting tasks we want to specify backlog we are associated with.
 
-    private Date created_At;
-    private Date updated_At;
+    private Date createdAt;
+    private Date updatedAt;
 
     public ProjectTask() {
     }
@@ -104,20 +104,20 @@ public class ProjectTask {
         this.projectIdentifier = projectIdentifier;
     }
 
-    public Date getCreated_At() {
-        return created_At;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_At(Date created_At) {
-        this.created_At = created_At;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getUpdated_At() {
-        return updated_At;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_At(Date updated_At) {
-        this.updated_At = updated_At;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Backlog getBacklog() {
@@ -130,12 +130,12 @@ public class ProjectTask {
 
     @PrePersist
     protected void onCreate() {
-        this.created_At = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updated_At = new Date();
+        this.updatedAt = new Date();
     }
 
     @Override
@@ -149,8 +149,8 @@ public class ProjectTask {
                 ", priority=" + priority +
                 ", dueDate=" + dueDate +
                 ", projectIdentifier='" + projectIdentifier + '\'' +
-                ", created_At=" + created_At +
-                ", updated_At=" + updated_At +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 
