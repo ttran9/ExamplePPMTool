@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskPriority;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskStatus;
 import tran.example.ppmtool.domain.Backlog;
+import tran.example.ppmtool.domain.Project;
 import tran.example.ppmtool.domain.ProjectTask;
+import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
 import tran.example.ppmtool.repositories.BacklogRepository;
+import tran.example.ppmtool.repositories.ProjectRepository;
 import tran.example.ppmtool.repositories.ProjectTaskRepository;
 
 @Service
@@ -16,50 +19,67 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     private ProjectTaskRepository projectTaskRepository;
 
+    private ProjectRepository projectRepository;
+
     @Autowired
-    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
+    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository,
+                                  ProjectRepository projectRepository) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Override
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
-
+        try {
         // Exceptions: Project not found
+        /*
+         {
+            ProjectNotFound: "Project Not Found"
+         }
+         */
+            // Project Tasks to be added to a specific project, project != null, and backlog must exist.
+            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
 
-        // Project Tasks to be added to a specific project, project != null, and backlog must exist.
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+            // set the backLog to projectTask.
+            projectTask.setBacklog(backlog);
 
-        // set the backLog to projectTask.
-        projectTask.setBacklog(backlog);
+            // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
+            Integer backlogSequence = backlog.getPTSequence();
+            // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
+            backlogSequence++;
 
-        // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
-        Integer backlogSequence = backlog.getPTSequence();
-        // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
-        backlogSequence++;
+            backlog.setPTSequence(backlogSequence);
 
-        backlog.setPTSequence(backlogSequence);
+            // Add Sequence to Project Task.
+            projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
+            projectTask.setProjectIdentifier(projectIdentifier);
 
-        // Add Sequence to Project Task.
-        projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
-        projectTask.setProjectIdentifier(projectIdentifier);
+            // INITIAL priority when priority null
+            if(projectTask.getPriority() == null /* || projectTask.getPriority() == 0 */) {
+                // we will need projectTask.getPriority() == 0 to handle our form in a later video.
+                projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
+            }
 
-        // INITIAL priority when priority null
-        if(projectTask.getPriority() == null /* || projectTask.getPriority() == 0 */) {
-            // we will need projectTask.getPriority() == 0 to handle our form in a later video.
-            projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
+            // INITIAL status when status is null
+            if(projectTask.getStatus() == null || projectTask.getStatus().equals("")) {
+                projectTask.setStatus(ProjectTaskStatus.TO_DO.getStatus());
+            }
+            return projectTaskRepository.save(projectTask);
+        } catch(Exception ex) {
+            throw new ProjectNotFoundException("Project Not found");
         }
-
-        // INITIAL status when status is null
-        if(projectTask.getStatus() == null || projectTask.getStatus().equals("")) {
-            projectTask.setStatus(ProjectTaskStatus.TO_DO.getStatus());
-        }
-
-        return projectTaskRepository.save(projectTask);
     }
 
     @Override
     public Iterable<ProjectTask> findBacklogById(String backlog_id) {
+
+        Project project = projectRepository.findByProjectIdentifier(backlog_id);
+
+        if(project == null) {
+            throw new ProjectNotFoundException("Project with ID: '" + backlog_id + "' does not exist");
+        }
+
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlog_id);
     }
 }
