@@ -132,12 +132,6 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         // find existing project task
         ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence);
 
-        // this is a hack-ish solution which will be resolved in the next video.
-        Backlog backlog = projectTask.getBacklog();
-        List<ProjectTask> pts = projectTask.getBacklog().getProjectTasks();
-        pts.remove(projectTask);
-        backlogRepository.save(backlog);
-
         projectTaskRepository.delete(projectTask);
     }
 }
