@@ -25,5 +25,5 @@ public interface ProjectTaskService {
      * @param projectSequence The project sequence identifying a project task.
      * @return Returns a project task.
      */
-    ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectSequence);
+    ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence);
 }
