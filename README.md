@@ -12,4 +12,4 @@ using React and Spring Boot.
 
 
 # Progress
-- At this point/commit the master branch has changes up to the end of section 3.
+- At this point/commit the master branch has changes up to the end of section 4.
