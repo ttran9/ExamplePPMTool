@@ -58,8 +58,7 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
             projectTask.setProjectIdentifier(projectIdentifier);
 
             // INITIAL priority when priority null
-            if(projectTask.getPriority() == null /* || projectTask.getPriority() == 0 */) {
-                // we will need projectTask.getPriority() == 0 to handle our form in a later video.
+            if(projectTask.getPriority() == null || projectTask.getPriority() == 0 ) {
                 projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
             }
 
