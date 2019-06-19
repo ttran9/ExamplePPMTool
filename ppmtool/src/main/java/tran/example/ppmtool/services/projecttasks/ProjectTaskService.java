@@ -1,6 +1,6 @@
 package tran.example.ppmtool.services.projecttasks;
 
-import tran.example.ppmtool.domain.ProjectTask;
+import tran.example.ppmtool.domain.project.ProjectTask;
 
 public interface ProjectTaskService {
 

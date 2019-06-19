@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskPriority;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskStatus;
-import tran.example.ppmtool.domain.Backlog;
-import tran.example.ppmtool.domain.Project;
-import tran.example.ppmtool.domain.ProjectTask;
+import tran.example.ppmtool.domain.project.Backlog;
+import tran.example.ppmtool.domain.project.Project;
+import tran.example.ppmtool.domain.project.ProjectTask;
 import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
 import tran.example.ppmtool.repositories.BacklogRepository;
 import tran.example.ppmtool.repositories.ProjectRepository;
 import tran.example.ppmtool.repositories.ProjectTaskRepository;
-
-import java.util.List;
 
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
