@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tran.example.ppmtool.config.security.JwtTokenProvider;
-import tran.example.ppmtool.constants.security.SecurityConstants;
+import tran.example.ppmtool.security.JwtTokenProvider;
 import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 import tran.example.ppmtool.payload.JWTLoginSuccessResponse;
 import tran.example.ppmtool.payload.LoginRequest;
 import tran.example.ppmtool.services.applicationusers.ApplicationUserService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
 import tran.example.ppmtool.validator.ApplicationUserValidator;
+import static tran.example.ppmtool.constants.security.SecurityConstants.TOKEN_PREFIX;
 
 import javax.validation.Valid;
 
@@ -65,7 +65,7 @@ public class ApplicationUserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwtToken = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
+        String jwtToken = TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwtToken));
     }
 
