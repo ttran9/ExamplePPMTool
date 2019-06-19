@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 import tran.example.ppmtool.services.applicationusers.ApplicationUserService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
+import tran.example.ppmtool.validator.ApplicationUserValidator;
 
 import javax.validation.Valid;
 
@@ -22,15 +23,21 @@ public class ApplicationUserController {
 
     private MapValidationErrorService mapValidationErrorService;
 
+    private ApplicationUserValidator applicationUserValidator;
+
     @Autowired
-    public ApplicationUserController(ApplicationUserService applicationUserService, MapValidationErrorService mapValidationErrorService) {
+    public ApplicationUserController(ApplicationUserService applicationUserService, MapValidationErrorService mapValidationErrorService,
+                                     ApplicationUserValidator applicationUserValidator) {
         this.applicationUserService = applicationUserService;
         this.mapValidationErrorService = mapValidationErrorService;
+        this.applicationUserValidator = applicationUserValidator;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody ApplicationUser applicationUser, BindingResult bindingResult) {
         // validate that passwords match.
+        applicationUserValidator.validate(applicationUser, bindingResult);
+
 
         ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
         if(errorMap != null) return errorMap;
