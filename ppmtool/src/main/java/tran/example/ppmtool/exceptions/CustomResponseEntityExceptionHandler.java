@@ -11,6 +11,8 @@ import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
 import tran.example.ppmtool.exceptions.projects.ProjectIdException;
 import tran.example.ppmtool.exceptions.projects.ProjectIdExceptionResponse;
 import tran.example.ppmtool.exceptions.projects.ProjectNotFoundExceptionResponse;
+import tran.example.ppmtool.exceptions.security.UsernameDuplicateException;
+import tran.example.ppmtool.exceptions.security.UsernameDuplicateExceptionResponse;
 
 @ControllerAdvice
 @RestController
@@ -18,14 +20,20 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler
     public final ResponseEntity<Object> handleProjectIdException(ProjectIdException ex, WebRequest webRequest) {
-        ProjectIdExceptionResponse exceptionResponse = new ProjectIdExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        ProjectIdExceptionResponse projectIdExceptionResponse = new ProjectIdExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(projectIdExceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public final ResponseEntity<Object> handleProjectNotFoundException(ProjectNotFoundException ex) {
-        ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        ProjectNotFoundExceptionResponse projectNotFoundExceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(projectNotFoundExceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleDuplicateUsername(UsernameDuplicateException ex) {
+        UsernameDuplicateExceptionResponse duplicateUserNameException = new UsernameDuplicateExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(duplicateUserNameException, HttpStatus.BAD_REQUEST);
     }
 
 }
