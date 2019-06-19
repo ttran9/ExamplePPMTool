@@ -7,9 +7,10 @@ public interface ProjectService {
     /**
      * saves or updates a project.
      * @param project The project to be saved or updated.
+     * @param username The name of the user that created the project used to set the relationship between project and application user.
      * @return Returns the saved or updated object.
      */
-    Project saveOrUpdateProject(Project project);
+    Project saveOrUpdateProject(Project project, String username);
 
     /**
      * retrieves the project by the projectIdentifier

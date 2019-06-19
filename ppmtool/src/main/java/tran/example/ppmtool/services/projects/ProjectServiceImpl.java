@@ -2,9 +2,11 @@ package tran.example.ppmtool.services.projects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 import tran.example.ppmtool.domain.project.Backlog;
 import tran.example.ppmtool.domain.project.Project;
 import tran.example.ppmtool.exceptions.projects.ProjectIdException;
+import tran.example.ppmtool.repositories.applicationusers.ApplicationUserRepository;
 import tran.example.ppmtool.repositories.project.BacklogRepository;
 import tran.example.ppmtool.repositories.project.ProjectRepository;
 
@@ -13,21 +15,29 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository projectRepository;
     private BacklogRepository backlogRepository;
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository, BacklogRepository backlogRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, BacklogRepository backlogRepository,
+                              ApplicationUserRepository applicationUserRepository) {
         this.projectRepository = projectRepository;
         this.backlogRepository = backlogRepository;
+        this.applicationUserRepository = applicationUserRepository;
     }
 
     /**
      * saves or updates a project.
      * @param project The project to be saved or updated.
+     * @param username The name of the user that created the project used to set the relationship between project and application user.
      * @return Returns the saved or updated object.
      */
     @Override
-    public Project saveOrUpdateProject(Project project) {
+    public Project saveOrUpdateProject(Project project, String username) {
         try {
+            ApplicationUser user = applicationUserRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
+
             String projectIdentifierUpperCase = project.getProjectIdentifier().toUpperCase();
             project.setProjectIdentifier(projectIdentifierUpperCase);
 
