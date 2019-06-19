@@ -10,6 +10,7 @@ import tran.example.ppmtool.services.projects.ProjectService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/project")
@@ -26,13 +27,14 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult,
+                                              Principal principal) {
         // we should return a generic type so we can return a ResponseEntity with more than just Project.
 
         ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
         if (errorMap != null) return errorMap;
 
-        Project project1 = this.projectService.saveOrUpdateProject(project);
+        Project project1 = this.projectService.saveOrUpdateProject(project, principal.getName());
         return new ResponseEntity<>(project1, HttpStatus.CREATED);
     }
 
