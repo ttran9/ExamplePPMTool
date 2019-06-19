@@ -4,22 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tran.example.ppmtool.security.JwtTokenProvider;
 import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
-import tran.example.ppmtool.payload.JWTLoginSuccessResponse;
 import tran.example.ppmtool.payload.LoginRequest;
+import tran.example.ppmtool.security.JwtTokenProvider;
 import tran.example.ppmtool.services.applicationusers.ApplicationUserService;
+import tran.example.ppmtool.services.security.ApplicationUserAuthenticationService;
 import tran.example.ppmtool.services.validations.MapValidationErrorService;
 import tran.example.ppmtool.validator.ApplicationUserValidator;
-import static tran.example.ppmtool.constants.security.SecurityConstants.TOKEN_PREFIX;
 
 import javax.validation.Valid;
 
@@ -37,16 +33,20 @@ public class ApplicationUserController {
 
     private AuthenticationManager authenticationManager;
 
+    private ApplicationUserAuthenticationService authenticationService;
+
 
     @Autowired
     public ApplicationUserController(ApplicationUserService applicationUserService, MapValidationErrorService mapValidationErrorService,
                                      ApplicationUserValidator applicationUserValidator, JwtTokenProvider jwtTokenProvider,
-                                     AuthenticationManager authenticationManager) {
+                                     AuthenticationManager authenticationManager,
+                                     ApplicationUserAuthenticationService authenticationService) {
         this.applicationUserService = applicationUserService;
         this.mapValidationErrorService = mapValidationErrorService;
         this.applicationUserValidator = applicationUserValidator;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
+        this.authenticationService = authenticationService;
     }
 
     @PostMapping("/login")
@@ -54,19 +54,7 @@ public class ApplicationUserController {
         ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
         if(errorMap != null) return errorMap;
 
-
-        // TODO: refactor this to a service later...
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwtToken = TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwtToken));
+        return authenticationService.applicationUserAuthentication(loginRequest, authenticationManager, jwtTokenProvider);
     }
 
     @PostMapping("/register")
