@@ -16,5 +16,11 @@ is a proper "good practice" but since I put the Project (earlier contents of the
 that it would make more sense to put the ApplicationUser object, repository, and services into their own relative subpackages.
     - I decided to do a lot of refactoring of packages on this branch (sec6/video80).
     
+# Other Notes
+- When setting up the JWT Token generation we are using a secret key that will be pushed to the repo. After I complete
+this Udemy course I will go back and look into using Spring Vault or perhaps look into private and public key JWT implementation
+    - I realize the initial upload is insecure and that I also have this same issue when uploading the database credentials
+    although when I push to Heroku I plan to use environment variables for that.    
+    
 # Progress
 - At this point/commit the master branch has changes up to the end of section 5.
