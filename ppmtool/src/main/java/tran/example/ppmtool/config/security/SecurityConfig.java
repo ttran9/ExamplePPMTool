@@ -13,7 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import tran.example.ppmtool.constants.security.SecurityConstants;
+import tran.example.ppmtool.security.JwtAuthenticationFilter;
 import tran.example.ppmtool.services.security.CustomUserDetailsService;
 
 @Configuration
@@ -25,19 +27,19 @@ import tran.example.ppmtool.services.security.CustomUserDetailsService;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 
     @Autowired
-    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint, CustomUserDetailsService customUserDetailsService,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.customUserDetailsService = customUserDetailsService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -74,5 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
                 .antMatchers(SecurityConstants.H2_URL).permitAll()
                 .anyRequest().authenticated();
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
