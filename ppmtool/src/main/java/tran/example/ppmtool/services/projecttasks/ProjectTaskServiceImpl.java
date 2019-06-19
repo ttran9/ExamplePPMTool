@@ -11,6 +11,9 @@ import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
 import tran.example.ppmtool.repositories.project.BacklogRepository;
 import tran.example.ppmtool.repositories.project.ProjectRepository;
 import tran.example.ppmtool.repositories.project.ProjectTaskRepository;
+import tran.example.ppmtool.services.projects.ProjectService;
+
+import java.security.Principal;
 
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
@@ -21,67 +24,78 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 
     private ProjectRepository projectRepository;
 
+    private ProjectService projectService;
+
     @Autowired
     public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository,
-                                  ProjectRepository projectRepository) {
+                                  ProjectRepository projectRepository, ProjectService projectService) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
         this.projectRepository = projectRepository;
+        this.projectService = projectService;
     }
 
+    /**
+     * Add a project task to an existing Project and Backlog.
+     * @param projectIdentifier The projectIdentifier to grab the associated Backlog.
+     * @param projectTask The projectTask to be added to a backlog identified by the projectIdentifier.
+     * @param principal The object expected to hold the logged in user's information (such as username).
+     * @return Return a new Project Task.
+     */
     @Override
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
-        try {
-        // Exceptions: Project not found
-        /*
-         {
-            ProjectNotFound: "Project Not Found"
-         }
-         */
-            // Project Tasks to be added to a specific project, project != null, and backlog must exist.
-            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, Principal principal) {
 
-            // set the backLog to projectTask.
-            projectTask.setBacklog(backlog);
+        // Project Tasks to be added to a specific project, project != null, and backlog must exist.
+        Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier, principal).getBacklog();
 
-            // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
-            Integer backlogSequence = backlog.getPtSequence();
-            // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
-            backlogSequence++;
+        // set the backLog to projectTask.
+        projectTask.setBacklog(backlog);
 
-            backlog.setPtSequence(backlogSequence);
+        // we want our project sequence to be like this: IDP1, IDP2, ..., IDP100.
+        Integer backlogSequence = backlog.getPtSequence();
+        // update the backlog sequence (before we set the projectTask project sequence b/c we start at 0 in the Backlog object).
+        backlogSequence++;
 
-            // Add Sequence to Project Task.
-            projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
-            projectTask.setProjectIdentifier(projectIdentifier);
+        backlog.setPtSequence(backlogSequence);
 
-            // INITIAL priority when priority null
-            if(projectTask.getPriority() == null || projectTask.getPriority() == 0 ) {
-                projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
-            }
+        // Add Sequence to Project Task.
+        projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
+        projectTask.setProjectIdentifier(projectIdentifier);
 
-            // INITIAL status when status is null
-            if(projectTask.getStatus() == null || projectTask.getStatus().equals("")) {
-                projectTask.setStatus(ProjectTaskStatus.TO_DO.getStatus());
-            }
-            return projectTaskRepository.save(projectTask);
-        } catch(Exception ex) {
-            throw new ProjectNotFoundException("Project Not found");
+        // INITIAL priority when priority null
+        if(projectTask.getPriority() == null || projectTask.getPriority() == 0 ) {
+            projectTask.setPriority(ProjectTaskPriority.LOW.getValue());
         }
+
+        // INITIAL status when status is null
+        if(projectTask.getStatus() == null || projectTask.getStatus().equals("")) {
+            projectTask.setStatus(ProjectTaskStatus.TO_DO.getStatus());
+        }
+        return projectTaskRepository.save(projectTask);
+
+
     }
 
+    /**
+     * Gets a list of Project Tasks associated with a specific Backlog.
+     * @param backlogId The backlog's projectIdentifier.
+     * @param principal The object expected to hold the logged in user's information (such as username).
+     * @return Gets a list of Project Tasks ordered by priority.
+     */
     @Override
-    public Iterable<ProjectTask> findBacklogById(String backlogId) {
+    public Iterable<ProjectTask> findBacklogById(String backlogId, Principal principal) {
 
-        Project project = projectRepository.findByProjectIdentifier(backlogId);
-
-        if(project == null) {
-            throw new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist");
-        }
+        projectService.findProjectByIdentifier(backlogId, principal);
 
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlogId);
     }
 
+    /**
+     * Gets the project task with the specified project sequence and is a part of the proper backlog.
+     * @param backlogId The backlog identifier that the project task is a part of.
+     * @param projectSequence The project sequence identifying a project task.
+     * @return Returns a project task.
+     */
     @Override
     public ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence) {
 
@@ -105,6 +119,13 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         return projectTask;
     }
 
+    /**
+     * Updates the project task with the specified project sequence and backlogId.
+     * @param updatedProjectTask The project task with the newly updated content(s).
+     * @param backlogId The backlog Id that this project task is a part of.
+     * @param projectSequence The project sequence of the project task to be updated.
+     * @return Returns the updated project task.
+     */
     @Override
     public ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence) {
 
@@ -124,6 +145,11 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
         return projectTaskRepository.save(projectTask);
     }
 
+    /**
+     * Deletes a project task with the specified project sequence and backlogId.
+     * @param backlogId The backlog Id that this project task is a part of.
+     * @param projectSequence The project sequence of the project task to be removed.
+     */
     @Override
     public void deleteProjectTaskByProjectSequenceAndBacklogId(String backlogId, String projectSequence) {
         // find existing project task
