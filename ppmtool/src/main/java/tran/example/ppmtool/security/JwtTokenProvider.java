@@ -1,4 +1,4 @@
-package tran.example.ppmtool.config.security;
+package tran.example.ppmtool.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
@@ -70,7 +70,7 @@ public class JwtTokenProvider {
     public Long getUserIdFromJWT(String token) {
         // we are decoding the token at this point to grab the id from it.
         Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-        String id = claims.getId();
+        String id = (String)claims.get("id");
         return Long.parseLong(id);
     }
 }
