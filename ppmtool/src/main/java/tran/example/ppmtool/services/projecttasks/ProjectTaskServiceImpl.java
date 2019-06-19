@@ -94,16 +94,15 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
      * Gets the project task with the specified project sequence and is a part of the proper backlog.
      * @param backlogId The backlog identifier that the project task is a part of.
      * @param projectSequence The project sequence identifying a project task.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Returns a project task.
      */
     @Override
-    public ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence) {
+    public ProjectTask findProjectTaskByBackLogIdAndProjectSequence(String backlogId, String projectSequence,
+                                                                    Principal principal) {
 
         // make sure we are searching on the right backlog.
-        Backlog backlog = backlogRepository.findByProjectIdentifier(backlogId);
-        if(backlog == null) {
-            throw new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist");
-        }
+        projectService.findProjectByIdentifier(backlogId, principal);
 
         // make sure that our project task exists.
         ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectSequence);
@@ -124,36 +123,31 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
      * @param updatedProjectTask The project task with the newly updated content(s).
      * @param backlogId The backlog Id that this project task is a part of.
      * @param projectSequence The project sequence of the project task to be updated.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Returns the updated project task.
      */
     @Override
-    public ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId, String projectSequence) {
+    public ProjectTask updateProjectTaskByProjectSequenceAndBacklogId(ProjectTask updatedProjectTask, String backlogId,
+                                                                      String projectSequence, Principal principal) {
 
         // find existing project task
-        ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence);
+        findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence, principal);
 
-//         the below stub is just to eliminate a warning from the compiler stating our findByProjectSequence is redundant.
-//        if(projectTask == null) {
-//            throw new ProjectNotFoundException("some logic here");
-//        }
-
-        // replace it with updated task
-        projectTask = updatedProjectTask;
-
-        // update project task
         // save update.
-        return projectTaskRepository.save(projectTask);
+        return projectTaskRepository.save(updatedProjectTask);
     }
 
     /**
      * Deletes a project task with the specified project sequence and backlogId.
      * @param backlogId The backlog Id that this project task is a part of.
      * @param projectSequence The project sequence of the project task to be removed.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      */
     @Override
-    public void deleteProjectTaskByProjectSequenceAndBacklogId(String backlogId, String projectSequence) {
+    public void deleteProjectTaskByProjectSequenceAndBacklogId(String backlogId, String projectSequence,
+                                                               Principal principal) {
         // find existing project task
-        ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence);
+        ProjectTask projectTask = findProjectTaskByBackLogIdAndProjectSequence(backlogId, projectSequence, principal);
 
         projectTaskRepository.delete(projectTask);
     }
