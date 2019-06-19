@@ -36,6 +36,23 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Project saveOrUpdateProject(Project project, Principal principal) {
+
+        /*
+         * check for the case where we are trying to update a project not in our account.
+         * check for the case where we are trying to pass in an invalid id but we still create a project (we don't want this case!)
+         */
+        if(project.getId() != null) {
+            Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+
+            if(existingProject != null && (!existingProject.getProjectLeader().equals(principal.getName()))) {
+                throw new ProjectNotFoundException("Project not found in your account");
+            }
+            else if(existingProject == null) {
+                // passing in the invalid database id
+                throw new ProjectNotFoundException("Project with ID: '" + project.getProjectIdentifier() + "' cannot be updated because it doesn't exist.");
+            }
+        }
+
         try {
             ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
             project.setUser(user);
