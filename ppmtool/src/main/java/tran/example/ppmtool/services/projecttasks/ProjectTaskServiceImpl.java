@@ -5,11 +5,8 @@ import org.springframework.stereotype.Service;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskPriority;
 import tran.example.ppmtool.constants.projecttask.ProjectTaskStatus;
 import tran.example.ppmtool.domain.project.Backlog;
-import tran.example.ppmtool.domain.project.Project;
 import tran.example.ppmtool.domain.project.ProjectTask;
 import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
-import tran.example.ppmtool.repositories.project.BacklogRepository;
-import tran.example.ppmtool.repositories.project.ProjectRepository;
 import tran.example.ppmtool.repositories.project.ProjectTaskRepository;
 import tran.example.ppmtool.services.projects.ProjectService;
 
@@ -18,20 +15,13 @@ import java.security.Principal;
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {
 
-    private BacklogRepository backlogRepository;
-
     private ProjectTaskRepository projectTaskRepository;
-
-    private ProjectRepository projectRepository;
 
     private ProjectService projectService;
 
     @Autowired
-    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository,
-                                  ProjectRepository projectRepository, ProjectService projectService) {
-        this.backlogRepository = backlogRepository;
+    public ProjectTaskServiceImpl(ProjectTaskRepository projectTaskRepository, ProjectService projectService) {
         this.projectTaskRepository = projectTaskRepository;
-        this.projectRepository = projectRepository;
         this.projectService = projectService;
     }
 
