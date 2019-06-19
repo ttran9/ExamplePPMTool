@@ -6,4 +6,7 @@ import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 
 @Repository
 public interface ApplicationUserRepository extends CrudRepository<ApplicationUser, Long> {
+
+    ApplicationUser findByUsername(String username);
+    ApplicationUser getById(Long id);
 }
