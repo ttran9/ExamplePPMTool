@@ -2,6 +2,7 @@ package tran.example.ppmtool.domain.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,6 +34,15 @@ public class Project {
     private Date createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private ApplicationUser user;
+
+    /*
+     * name of the person who stored the project.
+     */
+    private String projectLeader;
 
     /*
      * when we load a project we also will have the backlog object available.
@@ -131,5 +141,21 @@ public class Project {
 
     public void setBacklog(Backlog backlog) {
         this.backlog = backlog;
+    }
+
+    public ApplicationUser getUser() {
+        return user;
+    }
+
+    public void setUser(ApplicationUser user) {
+        this.user = user;
+    }
+
+    public String getProjectLeader() {
+        return projectLeader;
+    }
+
+    public void setProjectLeader(String projectLeader) {
+        this.projectLeader = projectLeader;
     }
 }
