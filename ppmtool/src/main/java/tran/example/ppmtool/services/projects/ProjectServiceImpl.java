@@ -6,6 +6,7 @@ import tran.example.ppmtool.domain.applicationuser.ApplicationUser;
 import tran.example.ppmtool.domain.project.Backlog;
 import tran.example.ppmtool.domain.project.Project;
 import tran.example.ppmtool.exceptions.projects.ProjectIdException;
+import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
 import tran.example.ppmtool.repositories.applicationusers.ApplicationUserRepository;
 import tran.example.ppmtool.repositories.project.BacklogRepository;
 import tran.example.ppmtool.repositories.project.ProjectRepository;
@@ -65,40 +66,48 @@ public class ProjectServiceImpl implements ProjectService {
     /**
      * retrieves the project by the projectIdentifier
      * @param projectId The project's projectIdentifier field.
-     * @return Returns the project with the specified projectIdentifier.
+     * @param principal The logged in user, may not be the owner of this project.
+     * @return Returns the project with the specified projectIdentifier and if the username matches the projectLeader name.
      */
     @Override
-    public Project findProjectByIdentifier(String projectId) {
+    public Project findProjectByIdentifier(String projectId, Principal principal) {
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
         if(project == null) {
             throw new ProjectIdException("Project ID '" + projectId + "' doesn't exist");
         }
 
-        return projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+        if (!project.getProjectLeader().equals(principal.getName())) {
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
+
+        return project;
     }
 
     /**
      * A method to retrieve all the objects in our database.
+     * @param principal The logged in user to retrieve all the projects for.
      * @return Returns all the projects.
      */
     @Override
-    public Iterable<Project> findAllProjects() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(Principal principal) {
+        String username = principal.getName();
+        return projectRepository.findAllByProjectLeader(username);
     }
 
     /**
      * deletes a project with the specified identifier
      * @param projectId The project's identifier.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      */
     @Override
-    public void deleteProjectByIdentifier(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+    public void deleteProjectByIdentifier(String projectId, Principal principal) {
+//        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+//
+//        if(project == null) {
+//            throw new ProjectIdException("Cannot Delete Project with ID '" + projectId + "'. This project doesn't exist");
+//        }
 
-        if(project == null) {
-            throw new ProjectIdException("Cannot Delete Project with ID '" + projectId + "'. This project doesn't exist");
-        }
-
-        projectRepository.delete(project);
+        projectRepository.delete(findProjectByIdentifier(projectId, principal));
     }
 }
