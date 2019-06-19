@@ -2,15 +2,17 @@ package tran.example.ppmtool.services.projects;
 
 import tran.example.ppmtool.domain.project.Project;
 
+import java.security.Principal;
+
 public interface ProjectService {
 
     /**
      * saves or updates a project.
      * @param project The project to be saved or updated.
-     * @param username The name of the user that created the project used to set the relationship between project and application user.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Returns the saved or updated object.
      */
-    Project saveOrUpdateProject(Project project, String username);
+    Project saveOrUpdateProject(Project project, Principal principal);
 
     /**
      * retrieves the project by the projectIdentifier

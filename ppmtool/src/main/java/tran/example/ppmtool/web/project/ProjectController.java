@@ -34,7 +34,7 @@ public class ProjectController {
         ResponseEntity<?> errorMap = mapValidationErrorService.outputCustomError(bindingResult);
         if (errorMap != null) return errorMap;
 
-        Project project1 = this.projectService.saveOrUpdateProject(project, principal.getName());
+        Project project1 = this.projectService.saveOrUpdateProject(project, principal);
         return new ResponseEntity<>(project1, HttpStatus.CREATED);
     }
 

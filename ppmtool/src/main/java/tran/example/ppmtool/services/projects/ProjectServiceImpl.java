@@ -10,6 +10,8 @@ import tran.example.ppmtool.repositories.applicationusers.ApplicationUserReposit
 import tran.example.ppmtool.repositories.project.BacklogRepository;
 import tran.example.ppmtool.repositories.project.ProjectRepository;
 
+import java.security.Principal;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
@@ -28,13 +30,13 @@ public class ProjectServiceImpl implements ProjectService {
     /**
      * saves or updates a project.
      * @param project The project to be saved or updated.
-     * @param username The name of the user that created the project used to set the relationship between project and application user.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Returns the saved or updated object.
      */
     @Override
-    public Project saveOrUpdateProject(Project project, String username) {
+    public Project saveOrUpdateProject(Project project, Principal principal) {
         try {
-            ApplicationUser user = applicationUserRepository.findByUsername(username);
+            ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
             project.setUser(user);
             project.setProjectLeader(user.getUsername());
 
