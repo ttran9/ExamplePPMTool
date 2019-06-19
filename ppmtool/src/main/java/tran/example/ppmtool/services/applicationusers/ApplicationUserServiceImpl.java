@@ -31,6 +31,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
             // make sure that password and confirm password match.
 
             // we don't persist or show the confirm password.
+            newApplicationUser.setConfirmPassword("");
 
             return applicationUserRepository.save(newApplicationUser);
         }
