@@ -2,22 +2,26 @@ package tran.example.ppmtool.services.projecttasks;
 
 import tran.example.ppmtool.domain.project.ProjectTask;
 
+import java.security.Principal;
+
 public interface ProjectTaskService {
 
     /**
      * Add a project task to an existing Project and Backlog.
      * @param projectIdentifier The projectIdentifier to grab the associated Backlog.
      * @param projectTask The projectTask to be added to a backlog identified by the projectIdentifier.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Return a new Project Task.
      */
-    ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask);
+    ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, Principal principal);
 
     /**
      * Gets a list of Project Tasks associated with a specific Backlog.
      * @param backlogId The backlog's projectIdentifier.
+     * @param principal The object expected to hold the logged in user's information (such as username).
      * @return Gets a list of Project Tasks ordered by priority.
      */
-    Iterable<ProjectTask> findBacklogById(String backlogId);
+    Iterable<ProjectTask> findBacklogById(String backlogId, Principal principal);
 
     /**
      * Gets the project task with the specified project sequence and is a part of the proper backlog.
