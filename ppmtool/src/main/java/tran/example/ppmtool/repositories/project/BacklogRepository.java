@@ -1,4 +1,4 @@
-package tran.example.ppmtool.repositories;
+package tran.example.ppmtool.repositories.project;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

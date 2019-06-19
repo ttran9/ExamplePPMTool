@@ -8,9 +8,9 @@ import tran.example.ppmtool.domain.project.Backlog;
 import tran.example.ppmtool.domain.project.Project;
 import tran.example.ppmtool.domain.project.ProjectTask;
 import tran.example.ppmtool.exceptions.projects.ProjectNotFoundException;
-import tran.example.ppmtool.repositories.BacklogRepository;
-import tran.example.ppmtool.repositories.ProjectRepository;
-import tran.example.ppmtool.repositories.ProjectTaskRepository;
+import tran.example.ppmtool.repositories.project.BacklogRepository;
+import tran.example.ppmtool.repositories.project.ProjectRepository;
+import tran.example.ppmtool.repositories.project.ProjectTaskRepository;
 
 @Service
 public class ProjectTaskServiceImpl implements ProjectTaskService {

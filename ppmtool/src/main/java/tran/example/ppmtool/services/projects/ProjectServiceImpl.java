@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import tran.example.ppmtool.domain.project.Backlog;
 import tran.example.ppmtool.domain.project.Project;
 import tran.example.ppmtool.exceptions.projects.ProjectIdException;
-import tran.example.ppmtool.repositories.BacklogRepository;
-import tran.example.ppmtool.repositories.ProjectRepository;
+import tran.example.ppmtool.repositories.project.BacklogRepository;
+import tran.example.ppmtool.repositories.project.ProjectRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
