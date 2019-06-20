@@ -19,6 +19,12 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push(`${Constants.DASHBOARD_URL}`);
+    }
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.security.validToken) {
       this.props.history.push(`${Constants.DASHBOARD_URL}`);
