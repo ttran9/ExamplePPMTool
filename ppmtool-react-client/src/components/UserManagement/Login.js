@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { login } from "../../actions/securityActions";
+import * as Constants from "../../Constants";
 
 class Login extends Component {
   constructor() {
@@ -10,11 +11,23 @@ class Login extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.security.validToken) {
+      this.props.history.push(`${Constants.DASHBOARD_URL}`);
+    }
+    if (newProps.errors) {
+      this.setState({
+        errors: newProps.errors
+      });
+    }
   }
 
   onChange(event) {
@@ -46,34 +59,34 @@ class Login extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    // className={classnames("form-control form-control-lg", {
-                    //   "is-invalid": errors.username
-                    // })}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.username
+                    })}
+                    // className="form-control form-control-lg"
                     placeholder="Email Address"
                     name="username"
                     value={this.state.username}
                     onChange={this.onChange}
                   />
-                  {/* {errors.username && (
+                  {errors.username && (
                     <div className="invalid-feedback">{errors.username}</div>
-                  )} */}
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    // className={classnames("form-control form-control-lg", {
-                    //   "is-invalid": errors.password
-                    // })}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
+                    // className="form-control form-control-lg"
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}
                   />
-                  {/* {errors.password && (
+                  {errors.password && (
                     <div className="invalid-feedback">{errors.password}</div>
-                  )} */}
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
