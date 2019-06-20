@@ -23,4 +23,4 @@ this Udemy course I will go back and look into using Spring Vault or perhaps loo
     although when I push to Heroku I plan to use environment variables for that.    
     
 # Progress
-- At this point/commit the master branch has changes up to the end of section 6.
+- At this point/commit the master branch has changes up to the end of section 7.
