@@ -7,7 +7,7 @@ spring:
       ddl-auto: update
   datasource:
     platform: mysql
-    url: jdbc:mysql://192.168.99.100:3306/websitedb?useSSL=false
-    username: root
-    password: test
+    url: ${PPM_MYSQL_DB_LINK}
+    username: ${PPM_MYSQL_USER_NAME}
+    password: ${PPM_MYSQL_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
