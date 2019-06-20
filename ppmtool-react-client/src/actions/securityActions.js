@@ -30,7 +30,7 @@ export const login = LoginRequest => async dispatch => {
     // extract token from the response.data
     const { token } = response.data;
     // store the token in the localStorage
-    localStorage.setItem("jwtToken", token);
+    localStorage.setItem(`${Constants.JWT_TOKEN}`, token);
 
     // set our token in the header (Authorization: Bearer [token here])
     setJWTToken(token);
@@ -49,4 +49,16 @@ export const login = LoginRequest => async dispatch => {
       payload: error.response.data
     });
   }
+};
+
+export const logout = () => dispatch => {
+  localStorage.removeItem(`${Constants.JWT_TOKEN}`);
+  setJWTToken(false); // delete the Authorization header.
+  console.log(
+    "deleted stuff!!! from localStorage and the authorization header"
+  );
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {}
+  });
 };
