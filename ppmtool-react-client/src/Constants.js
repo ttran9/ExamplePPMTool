@@ -11,6 +11,7 @@ export const REGISTER_ENDPOINT = `${API_URL}${USERS_URL}${REGISTER_URL}`;
 export const LOGIN_ENDPOINT = `${API_URL}${USERS_URL}${LOGIN_URL}`;
 
 export const AUTHORIZATION_HEADER = "Authorization";
+export const JWT_TOKEN = "jwtToken";
 
 export const TO_DO_STATUS = "TO_DO";
 export const IN_PROGRESS_STATUS = "IN_PROGRESS";
