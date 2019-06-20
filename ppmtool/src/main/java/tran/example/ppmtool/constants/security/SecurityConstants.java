@@ -7,6 +7,7 @@ public class SecurityConstants {
     public static final String SECRET = "Secret"; // TODO: will refactor this with a more secure implementation
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final long EXPIRATION_TIME = 2700000; // in milliseconds so 2700 seconds / 45 mins.
+//    public static final long EXPIRATION_TIME = 2700000; // in milliseconds so 2700 seconds / 45 mins.
+    public static final long EXPIRATION_TIME = 30000; // in milliseconds so 30 seconds.
 
 }
