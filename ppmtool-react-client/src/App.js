@@ -18,6 +18,7 @@ import * as Constants from "./Constants";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
+import { logout } from "./actions/securityActions";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -31,9 +32,9 @@ if (jwtToken) {
 
   const currentTime = Date.now() / 1000;
   if (decoded_token.exp < currentTime) {
-    console.log("token has expired...");
     // handle logout
-    // window.location.href = `${Constants.HOME_URL}`;
+    store.dispatch(logout());
+    window.location.href = `${Constants.HOME_URL}`;
   } else {
     console.log("token not yet expired..");
   }
