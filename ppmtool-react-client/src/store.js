@@ -5,17 +5,19 @@ import rootReducer from "./reducers";
 const initialState = {};
 const middleware = [thunk];
 
+const ReactReduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 let store;
 
-if (window.navigator.userAgent.includes("Chrome")) {
+if (window.navigator.userAgent.includes("Chrome") && ReactReduxDevTools) {
   // enhancer is the middleware we created.
   store = createStore(
     rootReducer,
     initialState,
     compose(
       applyMiddleware(...middleware),
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
+      ReactReduxDevTools
     )
   );
 } else {
