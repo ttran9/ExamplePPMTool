@@ -1,13 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import * as Constants from "../../Constants";
 
 class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div className="container">
-          <a className="navbar-brand" href="Dashboard.html">
+          <Link className="navbar-brand" to={`${Constants.HOME_URL}`}>
             Personal Project Management Tool
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -28,14 +30,14 @@ class Header extends Component {
 
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link " href="register.html">
+                <Link className="nav-link" to={`${Constants.REGISTER_URL}`}>
                   Sign Up
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="login.html">
+                <Link className="nav-link" to={`${Constants.LOGIN_URL}`}>
                   Login
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
