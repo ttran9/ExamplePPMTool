@@ -8,6 +8,10 @@ export const USERS_URL = "/users";
 export const PROJECT_API_URL = `${API_URL}/project`;
 export const BACKLOG_API_URL = `${API_URL}/backlog`;
 export const REGISTER_ENDPOINT = `${API_URL}${USERS_URL}${REGISTER_URL}`;
+export const LOGIN_ENDPOINT = `${API_URL}${USERS_URL}${LOGIN_URL}`;
+
+export const AUTHORIZATION_HEADER = "Authorization";
+
 export const TO_DO_STATUS = "TO_DO";
 export const IN_PROGRESS_STATUS = "IN_PROGRESS";
 export const DONE_STATUS = "DONE";
