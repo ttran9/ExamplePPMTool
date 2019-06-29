@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Layout/Header";
@@ -48,20 +49,20 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header />
-            {
-              // Public Routes
-            }
-            <Route exact path={`${Constants.HOME_URL}`} component={Landing} />
-            <Route
-              exact
-              path={`${Constants.REGISTER_URL}`}
-              component={Register}
-            />
-            <Route exact path={`${Constants.LOGIN_URL}`} component={Login} />
-            {
-              // Private Routes
-            }
             <Switch>
+              {
+                // Public Routes
+              }
+              <Route exact path={`${Constants.HOME_URL}`} component={Landing} />
+              <Route
+                exact
+                path={`${Constants.REGISTER_URL}`}
+                component={Register}
+              />
+              <Route exact path={`${Constants.LOGIN_URL}`} component={Login} />
+              {
+                // Private Routes
+              }
               <SecuredRoutes
                 exact
                 path={`${Constants.DASHBOARD_URL}`}
