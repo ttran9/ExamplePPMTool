@@ -29,7 +29,7 @@ class Landing extends Component {
                   className="btn btn-lg btn-primary mr-2"
                   to={`${Constants.REGISTER_URL}`}
                 >
-                  Sign Up
+                  Register
                 </Link>
                 <Link
                   className="btn btn-lg btn-secondary mr-2"
