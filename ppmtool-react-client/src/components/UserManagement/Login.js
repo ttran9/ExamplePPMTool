@@ -68,7 +68,6 @@ class Login extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.username
                     })}
-                    // className="form-control form-control-lg"
                     placeholder="Email Address"
                     name="username"
                     value={this.state.username}
@@ -84,7 +83,6 @@ class Login extends Component {
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.password
                     })}
-                    // className="form-control form-control-lg"
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
