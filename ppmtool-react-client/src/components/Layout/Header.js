@@ -69,7 +69,7 @@ class Header extends Component {
     }
 
     return (
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div className="container">
           <Link className="navbar-brand" to={`${Constants.HOME_URL}`}>
             Personal Project Management Tool
