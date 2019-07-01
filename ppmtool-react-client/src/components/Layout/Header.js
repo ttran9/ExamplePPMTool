@@ -69,18 +69,18 @@ class Header extends Component {
     }
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <Link className="navbar-brand" to={`${Constants.HOME_URL}`}>
             Personal Project Management Tool
           </Link>
           <button
-            className="navbar-toggler"
+            class="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#mobile-nav"
           >
-            <span className="navbar-toggler-icon" />
+            <span class="navbar-toggler-icon" />
           </button>
           {headerLinks}
         </div>

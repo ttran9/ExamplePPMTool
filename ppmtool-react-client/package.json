@@ -1,11 +1,15 @@
 {
   "name": "ppmtool-react-client",
   "version": "0.1.0",
+  "main": "index.js",
   "private": true,
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "axios": "^0.19.0",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "css-loader": "^3.0.0",
     "install-peers": "^1.0.3",
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
@@ -21,13 +25,11 @@
     "typescript": "^3.5.2"
   },
   "scripts": {
+    "dev": "webpack --mode development ./src/index.js --output ./static/main.js",
+    "build": "webpack --mode production ./src/index.js --output ./static/main.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -41,5 +43,14 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://sb-react-ppm.herokuapp.com/"
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  },
+  "proxy": "http://localhost:8080/"
 }
