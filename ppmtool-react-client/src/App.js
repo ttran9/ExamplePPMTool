@@ -19,6 +19,9 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
 import SecuredRoutes from "./securityUtils/SecuredRoutes";
+import VerifyRegistrationToken from "./components/UserManagement/VerifyRegistrationToken";
+import RegistrationSuccess from "./components/UserManagement/RegistrationSuccess";
+import AccountActivated from "./components/UserManagement/AccountActivated";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -58,6 +61,21 @@ class App extends Component {
                 component={Register}
               />
               <Route exact path={`${Constants.LOGIN_URL}`} component={Login} />
+              <Route
+                exact
+                path={`${Constants.CONFIRM_REGISTRATION_URL}/:token`}
+                component={VerifyRegistrationToken}
+              />
+              <Route
+                exact
+                path={`${Constants.REGISTRATION_SUCCESS_URL}`}
+                component={RegistrationSuccess}
+              />
+              <Route
+                exact
+                path={`${Constants.ACCOUNT_ACTIVATED_URL}`}
+                component={AccountActivated}
+              />
               {
                 // Private Routes
               }
@@ -69,22 +87,24 @@ class App extends Component {
               <SecuredRoutes exact path="/addProject" component={AddProject} />
               <SecuredRoutes
                 exact
-                path="/updateProject/:id"
+                path={`${Constants.UPDATE_PROJECT_URL}/:id`}
                 component={UpdateProject}
               />
               <SecuredRoutes
                 exact
-                path="/projectBoard/:id"
+                path={`${Constants.PROJECTBOARD_URL}/:id`}
                 component={ProjectBoard}
               />
               <SecuredRoutes
                 exact
-                path="/addProjectTask/:id"
+                path={`${Constants.ADD_PROJECT_TASK_URL}/:id`}
                 component={AddProjectTask}
               />
               <SecuredRoutes
                 exact
-                path="/updateProjectTask/:backlogId/:projectTaskId"
+                path={`${
+                  Constants.UPDATE_PROJECT_TASK_URL
+                }/:backlogId/:projectTaskId`}
                 component={UpdateProjectTask}
               />
             </Switch>

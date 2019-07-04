@@ -7,11 +7,26 @@ import jwt_decode from "jwt-decode";
 export const createNewUser = (newUser, history) => async dispatch => {
   try {
     await axios.post(`${Constants.REGISTER_ENDPOINT}`, newUser);
-    history.push(`${Constants.LOGIN_URL}`);
+    history.push(`${Constants.ACCOUNT_ACTIVATED_URL}`);
     dispatch({
       type: GET_ERRORS,
       payload: {}
     });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
+};
+
+export const confirmRegistration = (token, history) => async dispatch => {
+  try {
+    await axios
+      .post(`${Constants.CONFIRM_REGISTRATION_ENDPOINT}/${token}`)
+      .then(response => {
+        history.push(`${Constants.REGISTRATION_SUCCESS_URL}`);
+      });
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
