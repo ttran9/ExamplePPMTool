@@ -12,7 +12,10 @@ class Footer extends Component {
 
     const userIsAuthenticated = (
       <Fragment>
-        <Link className="btn btn-primary" to={`${Constants.LOGOUT_URL}`}>
+        <Link
+          className="btn btn-primary"
+          to={`${Constants.CHANGE_PASSWORD_URL}`}
+        >
           Change Password!
         </Link>
         <br />
