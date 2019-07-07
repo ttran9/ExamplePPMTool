@@ -6,7 +6,8 @@ export const LOGOUT_URL = "/logout";
 export const PROJECTBOARD_URL = "/projectBoard";
 export const ACCOUNT_ACTIVATED_URL = "/accountActivated";
 export const CONFIRM_REGISTRATION_URL = "/confirmRegistration";
-export const REGISTRATION_SUCCESS_URL = "/registrationSuccess";
+export const REQUEST_SUCCESS_URL = "/requestSuccess";
+export const CHANGE_PASSWORD_URL = "/changePassword";
 export const UPDATE_PROJECT_URL = "/updateProject";
 export const ADD_PROJECT_TASK_URL = "/addProjectTask";
 export const UPDATE_PROJECT_TASK_URL = "/updateProjectTask";
@@ -17,6 +18,7 @@ export const BACKLOG_API_URL = `${API_URL}/backlog`;
 export const REGISTER_ENDPOINT = `${API_URL}${USERS_URL}${REGISTER_URL}`;
 export const LOGIN_ENDPOINT = `${API_URL}${USERS_URL}${LOGIN_URL}`;
 export const CONFIRM_REGISTRATION_ENDPOINT = `${API_URL}${USERS_URL}${CONFIRM_REGISTRATION_URL}`;
+export const CHANGE_PASSWORD_ENDPOINT = `${API_URL}${USERS_URL}${CHANGE_PASSWORD_URL}`;
 
 export const AUTHORIZATION_HEADER = "Authorization";
 export const JWT_TOKEN = "jwtToken";

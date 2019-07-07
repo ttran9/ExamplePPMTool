@@ -1,30 +1,19 @@
 import React, { Component } from "react";
-import { createNewUser } from "../../actions/securityActions";
+import { changePassword } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import * as Constants from "../../Constants";
 
-class Register extends Component {
-  constructor() {
-    super();
+class ProcessPasswordChange extends Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
-      username: "",
-      fullName: "",
       password: "",
       confirmPassword: "",
       errors: {}
     };
-
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.props.security.validToken) {
-      this.props.history.push(`${Constants.DASHBOARD_URL}`);
-    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -35,67 +24,36 @@ class Register extends Component {
     }
   }
 
-  onChange(event) {
+  onChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
-  onSubmit(event) {
+  onSubmit = event => {
     event.preventDefault();
 
-    const { username, fullName, password, confirmPassword } = this.state;
+    const { password, confirmPassword } = this.state;
 
-    const newUser = {
-      username,
-      fullName,
+    const newPasswordContent = {
       password,
       confirmPassword
     };
 
-    this.props.createNewUser(newUser, this.props.history);
-  }
+    const { token } = this.props.match.params;
+
+    this.props.changePassword(token, this.props.history, newPasswordContent);
+  };
 
   render() {
     const { errors } = this.state;
     return (
-      <div className="register">
+      <div className="change-password">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">Create your Account</p>
+              <h3 className="display-4 text-center">Change your password</h3>
               <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.fullName
-                    })}
-                    placeholder="Full Name"
-                    name="fullName"
-                    value={this.state.fullName}
-                    onChange={this.onChange}
-                  />
-                  {errors.fullName && (
-                    <div className="invalid-feedback">{errors.fullName}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.username
-                    })}
-                    placeholder="Email Address (Username)"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onChange}
-                  />
-                  {errors.username && (
-                    <div className="invalid-feedback">{errors.username}</div>
-                  )}
-                </div>
                 <div className="form-group">
                   <input
                     type="password"
@@ -138,18 +96,18 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  createNewUser: PropTypes.func.isRequired,
+ProcessPasswordChange.propTypes = {
+  security: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  security: PropTypes.object.isRequired
+  changePassword: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  errors: state.errors,
-  security: state.security
+  security: state.security,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { createNewUser }
-)(Register);
+  { changePassword }
+)(ProcessPasswordChange);

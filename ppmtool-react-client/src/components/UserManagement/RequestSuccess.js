@@ -1,17 +1,24 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import classnames from "classnames";
 import * as Constants from "../../Constants";
+import { Link } from "react-router-dom";
 
-class AccountActivated extends Component {
+class RequestSuccess extends Component {
+  // componentDidMount() {
+  //   if (this.props.security.validToken) {
+  //     this.props.history.push(`${Constants.DASHBOARD_URL}`);
+  //   }
+  // }
+
   render() {
     const { message } = this.props.security;
     const contentWithMessage = <p className="lead">{message}</p>;
 
     const contentWithNoMessage = (
       <Fragment>
-        <p className="lead">You did not request any content.</p>
+        <p className="lead">You did not make a request on your account.</p>
         <Link
           className="btn btn-lg btn-secondary mr-2"
           to={`${Constants.HOME_URL}`}
@@ -27,13 +34,19 @@ class AccountActivated extends Component {
         : contentWithMessage;
 
     return (
-      <div className="account-activated">
+      <div className="registration-success">
         <div className="light-overlay landing-inner text-dark">
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
                 {content}
                 <hr />
+                <Link
+                  className="btn btn-lg btn-primary"
+                  to={`${Constants.LOGIN_URL}`}
+                >
+                  Login
+                </Link>
               </div>
             </div>
           </div>
@@ -43,7 +56,7 @@ class AccountActivated extends Component {
   }
 }
 
-AccountActivated.propTypes = {
+RequestSuccess.propTypes = {
   security: PropTypes.object.isRequired
 };
 
@@ -51,4 +64,4 @@ const mapStateToProps = state => ({
   security: state.security
 });
 
-export default connect(mapStateToProps)(AccountActivated);
+export default connect(mapStateToProps)(RequestSuccess);

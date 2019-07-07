@@ -4,10 +4,12 @@ export const GET_PROJECT = "GET_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
 
 // Types for BACKLOG ACTIONS
-
 export const GET_BACKLOG = "GET_BACKLOG";
 export const GET_PROJECT_TASK = "GET_PROJECT_TASK";
 export const DELETE_PROJECT_TASK = "DELETE_PROJECT_TASK";
 
 // Types for users.
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+
+// Type for events.
+export const REQUEST_SUCCESS = "REQUEST_SUCCESS";

@@ -20,8 +20,11 @@ import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
 import SecuredRoutes from "./securityUtils/SecuredRoutes";
 import VerifyRegistrationToken from "./components/UserManagement/VerifyRegistrationToken";
-import RegistrationSuccess from "./components/UserManagement/RegistrationSuccess";
+import RequestSuccess from "./components/UserManagement/RequestSuccess";
 import AccountActivated from "./components/UserManagement/AccountActivated";
+import RequestPasswordChange from "./components/UserManagement/RequestPasswordChange";
+import ProcessPasswordChange from "./components/UserManagement/ProcessPasswordChange";
+import Footer from "./components/Layout/Footer";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -68,8 +71,8 @@ class App extends Component {
               />
               <Route
                 exact
-                path={`${Constants.REGISTRATION_SUCCESS_URL}`}
-                component={RegistrationSuccess}
+                path={`${Constants.REQUEST_SUCCESS_URL}`}
+                component={RequestSuccess}
               />
               <Route
                 exact
@@ -107,7 +110,19 @@ class App extends Component {
                 }/:backlogId/:projectTaskId`}
                 component={UpdateProjectTask}
               />
+              <SecuredRoutes
+                exact
+                path={`${Constants.CHANGE_PASSWORD_URL}`}
+                component={RequestPasswordChange}
+              />
+              <SecuredRoutes
+                exact
+                path={`${Constants.CHANGE_PASSWORD_URL}/:token`}
+                component={ProcessPasswordChange}
+              />
             </Switch>
+            <hr />
+            <Footer />
           </div>
         </Router>
       </Provider>
