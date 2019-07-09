@@ -5,7 +5,7 @@ using React and Spring Boot.
 
 # Directory Structure
 - The directory "ppmtool" will house the back-end code (i.e the API and Java based code).
-- The directory "ppmtooldesign" is there and houses the templates that we used to build our components.
+- The directory "ppmtool-react-client" is the front-end code.
 
 # Video notes
 - If the video_notes.md file is empty for a commit then that means for the video I did not upload any notes for it.
