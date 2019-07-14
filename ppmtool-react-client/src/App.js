@@ -121,7 +121,6 @@ class App extends Component {
                 component={ProcessPasswordChange}
               />
             </Switch>
-            <hr />
             <Footer />
           </div>
         </Router>
